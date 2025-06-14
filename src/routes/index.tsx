@@ -1,36 +1,53 @@
-import { createFileRoute } from '@tanstack/react-router'
-import logo from '../logo.svg'
-import '../App.css'
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import "../App.css";
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+  SignInButton,
+  SignOutButton,
+} from "@clerk/clerk-react";
+import { DEFAULT_AUTHENTICATED_ROUTES } from "@/constants/routes";
 
-export const Route = createFileRoute('/')({
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Add your Clerk Publishable Key to the .env file");
+}
+
+export const Route = createFileRoute("/")({
+  beforeLoad: ({ context }) => {
+    console.log("context", context);
+    if (context.auth.isSignedIn) {
+      throw redirect({
+        to: DEFAULT_AUTHENTICATED_ROUTES,
+      });
+    } else {
+      throw redirect({
+        to: "/login",
+      });
+    }
+  },
   component: App,
-})
+  loader: () => {
+    return import("./index.tsx");
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/routes/index.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a
-          className="App-link"
-          href="https://tanstack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn TanStack
-        </a>
+    <>
+      <header>
+        <SignedIn>
+          <p>You are signed in</p>
+          <UserButton />
+          <SignOutButton />
+        </SignedIn>
+        <SignedOut>
+          <p>You are signed out</p>
+          <SignInButton />
+        </SignedOut>
       </header>
-    </div>
-  )
+    </>
+  );
 }
