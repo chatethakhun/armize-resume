@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-
+import "@ant-design/v5-patch-for-react-19";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
@@ -11,8 +11,9 @@ import reportWebVitals from "./reportWebVitals.ts";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { AuthProvider, useMyAuth } from "./providers/auth.tsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { Spin } from "antd";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 // Create a new router instance
 const router = createRouter({
@@ -37,7 +38,9 @@ const InnerApp = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center flex-1">Loading...</div>
+      <div className="flex justify-center items-center flex-1 h-screen">
+        <Spin />
+      </div>
     );
   }
 
