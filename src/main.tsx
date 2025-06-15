@@ -10,6 +10,9 @@ import reportWebVitals from "./reportWebVitals.ts";
 
 import { ClerkProvider } from "@clerk/clerk-react";
 import { AuthProvider, useMyAuth } from "./providers/auth.tsx";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 // Create a new router instance
 const router = createRouter({
@@ -33,7 +36,9 @@ const InnerApp = () => {
   const { isSignedIn, isLoading } = useMyAuth();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center flex-1">Loading...</div>
+    );
   }
 
   return (
@@ -66,7 +71,9 @@ if (rootElement && !rootElement.innerHTML) {
         signInFallbackRedirectUrl="/login"
       >
         <AuthProvider>
-          <InnerApp />
+          <QueryClientProvider client={queryClient}>
+            <InnerApp />
+          </QueryClientProvider>
         </AuthProvider>
       </ClerkProvider>
     </StrictMode>,
