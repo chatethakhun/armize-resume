@@ -1,15 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import Logo from "./Logo";
 import { useClerk } from "@clerk/clerk-react";
-
+import { FaBlog } from "react-icons/fa";
+import { IoLogInOutline, IoLogOutOutline } from "react-icons/io5";
 const menus = [
   {
     name: "Blog",
     pathName: "/apps/blogs",
-  },
-  {
-    name: "...",
-    pathName: "/apps/more",
+    icon: () => <FaBlog className="text-lg" />,
   },
 ];
 
@@ -33,18 +31,26 @@ const Sidebar = () => {
                     "text-blue-500 border-b-2 border-blue-500 w-full font-bold inline-block",
                 }}
               >
-                {menu.name}
+                <div className="flex gap-2 items-center">
+                  {menu.icon && <menu.icon />}
+                  {menu.name}
+                </div>
               </Link>
             </div>
           );
         })}
       </div>
       <div
-        className="mt-auto cursor-pointer"
+        className="mt-auto cursor-pointer flex gap-2 items-center hover:text-blue-500"
         onClick={() => {
           isSignedIn ? signOut() : openSignIn();
         }}
       >
+        {isSignedIn ? (
+          <IoLogOutOutline className="text-2xl" />
+        ) : (
+          <IoLogInOutline className="text-2xl" />
+        )}
         {isSignedIn ? "Logout" : "Login"}
       </div>
     </div>
