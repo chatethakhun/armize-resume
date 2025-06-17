@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import Logo from "./Logo";
+import { useClerk } from "@clerk/clerk-react";
 
 const menus = [
   {
@@ -13,28 +14,39 @@ const menus = [
 ];
 
 const Sidebar = () => {
+  const { signOut, isSignedIn, openSignIn } = useClerk();
   return (
-    <div className=" h-screen px-5 py-5 gap-3 bg-gray-100 shadow-md">
-      <Logo />
-      <hr className="border-blue-500 border-2 " />
+    <div className="h-screen px-5 py-5 gap-3 bg-gray-100 shadow-md flex flex-col justify-between">
+      <div>
+        <Logo />
+        <hr className="border-blue-500 border-2 " />
 
-      <br />
+        <br />
 
-      {menus.map((menu) => {
-        return (
-          <div className="w-full" key={menu.pathName}>
-            <Link
-              to={menu.pathName}
-              activeProps={{
-                className:
-                  "text-blue-500 border-b-2 border-blue-500 w-full font-bold inline-block",
-              }}
-            >
-              {menu.name}
-            </Link>
-          </div>
-        );
-      })}
+        {menus.map((menu) => {
+          return (
+            <div className="w-full" key={menu.pathName}>
+              <Link
+                to={menu.pathName}
+                activeProps={{
+                  className:
+                    "text-blue-500 border-b-2 border-blue-500 w-full font-bold inline-block",
+                }}
+              >
+                {menu.name}
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+      <div
+        className="mt-auto cursor-pointer"
+        onClick={() => {
+          isSignedIn ? signOut() : openSignIn();
+        }}
+      >
+        {isSignedIn ? "Logout" : "Login"}
+      </div>
     </div>
   );
 };

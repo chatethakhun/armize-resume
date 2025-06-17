@@ -24,19 +24,8 @@ function RouteComponent() {
     });
   }, []);
   return (
-    <div className="flex flex-wrap gap-4 p-10">
-      {myProjects.map((project) => (
-        <Card key={project.name}>
-          <Card.Meta title={project.name} description={project.description} />
-          <Button
-            className="mt-4 w-full"
-            type="primary"
-            onClick={() => openLink(project.url)}
-          >
-            Open
-          </Button>
-        </Card>
-      ))}
+    <div className="flex flex-wrap gap-4 p-10 text-6xl text-blue-500 justify-center items-center w-full">
+      WELCOME TO MY ARIZE
     </div>
   );
 }
