@@ -17,7 +17,6 @@ if (!PUBLISHABLE_KEY) {
 
 export const Route = createFileRoute("/")({
   beforeLoad: ({ context }) => {
-    console.log("context", context);
     if (context.auth.isSignedIn) {
       throw redirect({
         to: DEFAULT_AUTHENTICATED_ROUTES,
