@@ -14,7 +14,7 @@ const menus = [
 const Sidebar = () => {
   const { signOut, isSignedIn, openSignIn } = useClerk();
   return (
-    <div className="h-screen px-5 py-5 gap-3 bg-gray-100 shadow-md flex flex-col justify-between">
+    <div className="h-screen px-5 py-5 gap-3 bg-gray-100 shadow-md flex flex-col justify-between w-[300px]">
       <div>
         <Logo />
         <hr className="border-blue-500 border-2 " />
